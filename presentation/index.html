@@ -159,19 +159,21 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </body>
 </p></div></section>
 <section id="_graalvm"><h2>GraalVM</h2><div class="imageblock" style=""><img src="images/graalvm.svg" alt="graalvm" width="800"></div>
-<div class="ulist"><ul><li><p>Alternative zu OpenJDK/HotSpot</p></li><li><p>Truffle Framework: Unterstützung anderer Sprachen über AST</p></li><li><p><strong>Native Image</strong>: Erweiterung für ahead-of-time (AOT) Compilation</p></li><li><p>Graal Compiler, SubstrateVM</p></li><li><p>Entwickelt in Java</p></li><li><p>Produktiv seit 2019</p></li><li><p>Community Edition vs. Enterprise Edition</p></li></ul></div></section>
+<div class="ulist"><ul><li><p>Alternative zu OpenJDK/HotSpot</p></li><li><p>Truffle Framework: Unterstützung anderer Sprachen über AST</p></li><li><p><strong>Native Image</strong>: Erweiterung für <strong>ahead-of-time (AOT) Compilation</strong></p></li><li><p>Graal Compiler, SubstrateVM</p></li><li><p>Entwickelt in Java</p></li><li><p>Produktiv seit 2019</p></li><li><p>Community Edition vs. Enterprise Edition</p></li><li><p>Alternativen: Mandrel (Red Hat), Liberica NIK (Bellsoft)</p></li></ul></div></section>
 <section id="_graalvm_2"><h2>GraalVM</h2><div class="imageblock" style=""><img src="images/graalvm_architecture.jpg" alt="graalvm architecture" height="800"></div></section>
 <section id="_graalvm_3"><h2>GraalVM</h2><div class="paragraph heading"><p>Vorteile</p></div>
 <div class="ulist"><ul><li><p>Reduzierte Startup Time</p></li><li><p>Geringerer Speicherverbrauch</p></li><li><p>Potentiell kleinere Angriffsfläche (Closed World)</p></li><li><p>Polyglotte Anwendungen</p></li></ul></div></section>
 <section id="_graalvm_4"><h2>GraalVM</h2><div class="paragraph heading"><p>Eingeschränkt bzw. nicht unterstützt</p></div>
 <div class="ulist"><ul><li><p>Reflection (@RegisterForReflection)</p></li><li><p>Dynamic Class Loading (z.B. JRebel)</p></li><li><p>Manipulationen des Bytecodes (z.B. Lombok, Profiler)</p></li><li><p>Java Debugger (nur GDB)</p></li></ul></div></section>
 <section id="_spring_boot_3"><h2>Spring Boot 3</h2><div class="paragraph heading"><p>Vorgeschichte</p></div>
-<div class="ulist"><ul><li><p>GraalVM (2019)</p></li><li><p>Quarkus (2019)</p></li><li><p>Spring Native (2019)</p></li><li><p>Vollständige Integration in Spring 6 und Spring Boot 3 (2022)</p></li><li><p>Spring Native deprecated (2023)</p></li></ul></div></section>
+<div class="ulist"><ul><li><p>GraalVM (2019)</p></li><li><p>Quarkus (2019)</p></li><li><p>Spring Native (2019)</p></li><li><p>Java 17 (2021)</p></li><li><p>Vollständige Integration in Spring 6 und Spring Boot 3 (2022)</p></li><li><p>Spring Native deprecated (2023)</p></li></ul></div></section>
 <section id="_spring_boot_3_2"><h2>Spring Boot 3</h2><div class="paragraph heading"><p>Verwendung</p></div>
 <div class="paragraph"><p>Native Image Build (GraalVM):</p></div>
 <pre class="CodeRay listingblock"><code class="bash language-bash">mvn -Pnative native:compile</code></pre>
 <div class="paragraph"><p>Native Container Build (Buildpacks):</p></div>
-<pre class="CodeRay listingblock"><code class="bash language-bash">mvn -Pnative spring-boot:build-image</code></pre></section>
+<pre class="CodeRay listingblock"><code class="bash language-bash">mvn -Pnative spring-boot:build-image</code></pre>
+<div class="paragraph"><p>JVM AOT Build:</p></div>
+<pre class="CodeRay listingblock"><code class="bash language-bash">mvn -Pnative package</code></pre></section>
 <section id="_spring_boot_3_3"><h2>Spring Boot 3</h2><div class="paragraph heading"><p>Unter der Haube</p></div>
 <div class="ulist"><ul><li><p>Statische Analyse des Classpaths</p></li><li><p>Starten des ApplicationContexts (ohne Instanziierung)</p></li><li><p>Generierung und Auswertung von Metadaten</p><div class="ulist"><ul><li><p>GraalVM Reachability Repository</p></li><li><p>Code Analyse durch Spring Projekte</p></li><li><p>Runtime Hints in Libraries</p></li><li><p>Eigene Runtime Hints</p></li></ul></div></li><li><p>Generierung von zusätzlichem AOT <strong>Source</strong> Code</p></li><li><p>Entfernen nicht erreichbarer Klassen und Ressourcen</p></li><li><p>Kompilierung eines nativen Binaries</p></li><li><p>Bauen eines Docker Images (Buildpacks, optional)</p></li></ul></div></section>
 <section id="_spring_boot_3_4"><h2>Spring Boot 3</h2><div class="imageblock" style=""><img src="images/spring-boot-native.png" alt="spring boot native" height="750"></div>
@@ -184,23 +186,23 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <pre class="CodeRay listingblock"><code class="bash language-bash">mvn -Pnative clean package
 java -Dspring.aot.enabled=true -jar target/app.jar</code></pre></section>
 <section id="_spring_boot_3_7"><h2>Spring Boot 3</h2><div class="paragraph heading"><p>Native Tests</p></div>
-<div class="ulist"><ul><li><p>Verwendung der GraalVM Native Build Tools</p></li><li><p>Analyse der eingebundenen ApplicationContexte</p></li><li><p>Generierung von zusätzlichem AOT (Test) Source Code</p></li><li><p>Generierung und Ausführung eines Images <strong>inkl.</strong> sämtlicher Tests</p></li></ul></div>
+<div class="ulist"><ul><li><p>Verwendung der GraalVM Native Build Tools</p></li><li><p>Analyse der eingebundenen ApplicationContexte</p></li><li><p>Generierung von zusätzlichem AOT (Test) <strong>Source</strong> Code</p></li><li><p>Generierung und Ausführung eines Images <strong>inkl.</strong> sämtlicher Tests</p></li></ul></div>
 <pre class="CodeRay listingblock"><code class="bash language-bash">mvn -PnativeTest test</code></pre></section>
 <section id="_spring_boot_3_8"><h2>Spring Boot 3</h2><div class="paragraph heading"><p>Limitierungen</p></div>
-<div class="ulist"><ul><li><p>Closed World</p><div class="ulist"><ul><li><p>Classpath</p></li><li><p>ApplicationContext</p></li><li><p>Profile &amp; Conditions</p></li></ul></div></li><li><p>Dynamic (Lazy) Class Loading</p></li><li><p>Resource Loading</p></li><li><p>Generierung von Bytecode (Runtime)</p></li><li><p>Reflection</p></li><li><p>Java Agents</p></li></ul></div></section>
+<div class="ulist"><ul><li><p>Closed World</p><div class="ulist"><ul><li><p>Classpath</p></li><li><p>ApplicationContext</p></li><li><p>Profile &amp; Conditions</p></li></ul></div></li><li><p>Reflection</p></li><li><p>Resource Loading</p></li><li><p>Dynamic (Lazy) Class Loading</p></li><li><p>Generierung von Bytecode (Runtime)</p></li><li><p>Java Agents</p></li></ul></div></section>
 <section id="_spring_boot_3_9"><h2>Spring Boot 3</h2><div class="paragraph heading"><p>Nativer Migrationspfad</p></div>
 <div class="ulist"><ul><li><p>Dependencies aktualisieren</p></li><li><p>Anwendung im AOT Mode bauen und auf JVM starten</p></li><li><p>Tests nativ ausführen</p></li><li><p>Runtime Hints ergänzen</p><div class="ulist"><ul><li><p>Reflection</p></li><li><p>Ressourcen</p></li><li><p>Serialisierung</p></li><li><p>DynamicProxys</p></li><li><p>JNI</p></li></ul></div></li><li><p>Anwendung nativ starten</p></li></ul></div></section>
 <section id="_benchmarks_build_time"><h2>Benchmarks - Build Time</h2><div class="paragraph"><p><strong>Spring Boot (native)</strong></p></div>
 <div class="imageblock" style=""><img src="images/springboot3_native_build.png" alt="springboot3 native build" height="300"></div>
 <div class="paragraph"><p><strong>Quarkus (native)</strong></p></div>
 <div class="imageblock" style=""><img src="images/quarkus_native_build.png" alt="quarkus native build" height="300"></div></section>
-<section id="_benchmarks_startup_time"><h2>Benchmarks - Startup Time</h2><div class="paragraph"><p><strong>Spring Boot (HotSpot)</strong></p></div>
+<section id="_benchmarks_startup_time"><h2>Benchmarks - Startup Time</h2><div class="paragraph"><p><strong>Spring Boot (JVM)</strong></p></div>
 <div class="imageblock" style=""><img src="images/springboot3_jvm_startup.png" alt="springboot3 jvm startup" height="50"></div>
 <div class="paragraph"><p><strong>Spring Boot (native)</strong></p></div>
 <div class="imageblock" style=""><img src="images/springboot3_native_startup.png" alt="springboot3 native startup" height="50"></div>
 <div class="paragraph"><p><strong>Quarkus (native)</strong></p></div>
 <div class="imageblock" style=""><img src="images/quarkus_native_startup.png" alt="quarkus native startup" height="50"></div></section>
-<section id="_benchmarks_ressourcenverbrauch"><h2>Benchmarks - Ressourcenverbrauch</h2><div class="paragraph"><p><strong>Spring Boot (HotSpot)</strong></p></div>
+<section id="_benchmarks_ressourcenverbrauch"><h2>Benchmarks - Ressourcenverbrauch</h2><div class="paragraph"><p><strong>Spring Boot (JVM)</strong></p></div>
 <div class="imageblock" style=""><img src="images/springboot3_jvm_resources.png" alt="springboot3 jvm resources" height="80"></div>
 <div class="paragraph"><p><strong>Spring Boot (native)</strong></p></div>
 <div class="imageblock" style=""><img src="images/springboot3_native_resources.png" alt="springboot3 native resources" height="80"></div>
@@ -234,7 +236,7 @@ Reveal.initialize({
   // Enable the slide overview mode
   overview: true,
   // Vertical centering of slides
-  center: false,
+  center: true,
   // Enables touch navigation on devices with touch input
   touch: true,
   // Loop the presentation
